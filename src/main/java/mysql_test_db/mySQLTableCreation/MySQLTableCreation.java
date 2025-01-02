@@ -2,6 +2,7 @@ package mysql_test_db.mySQLTableCreation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 public class MySQLTableCreation {
@@ -21,6 +22,23 @@ public class MySQLTableCreation {
             try (Statement statement = connection.createStatement()){
                 statement.execute(createTable);
                 System.out.println("  Tabela produse a fost creata cu succes.");
+            }
+            // Inserarea rindurilor folosind PreparedStatement
+            String insertSQL = "INSERT INTO produse (name, price) VALUES (?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+                preparedStatement.setString(1, "Laptop");
+                preparedStatement.setBigDecimal(2, new java.math.BigDecimal("2999.99"));
+                preparedStatement.executeUpdate();
+
+                preparedStatement.setString(1, "Telefon");
+                preparedStatement.setBigDecimal(2, new java.math.BigDecimal("999.99"));
+                preparedStatement.executeUpdate();
+
+                preparedStatement.setString(1, "Tabletă");
+                preparedStatement.setBigDecimal(2, new java.math.BigDecimal("1499.99"));
+                preparedStatement.executeUpdate();
+
+                System.out.println("Rindurile au fost inserate cu succes!");
             }
         }
         catch (Exception e){
