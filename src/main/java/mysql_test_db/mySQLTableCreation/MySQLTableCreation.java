@@ -2,6 +2,7 @@ package mysql_test_db.mySQLTableCreation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class MySQLTableCreation {
     public static void main(String[] args) {
@@ -17,6 +18,10 @@ public class MySQLTableCreation {
                     name varchar(50) not null,
                     price decimal(10,2) not null);
                     """;
+            try (Statement statement = connection.createStatement()){
+                statement.execute(createTable);
+                System.out.println("  Tabela produse a fost creata cu succes.");
+            }
         }
         catch (Exception e){
             System.out.println("  Eroare la conectarea sau la operarea pe baza de date");
